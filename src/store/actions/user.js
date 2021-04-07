@@ -1,16 +1,19 @@
 import { createAction } from 'redux-actions'
 import agent from '../../agent'
 
-const { Auth } = agent
+const { Auth, User } = agent
 
 export const authLogin = createAction('AUTH/LOGIN', async (nickname, password) => {
-  const auth = await Auth.login(nickname, password)
+  const { token } = await Auth.login(nickname, password)
 
-  Auth.set(auth.token)
-  localStorage.setItem('token', auth.token);
+  Auth.set(token)
+  localStorage.setItem('token', token);
+
+  const { user } = await Auth.current()
 
   return {
-    token: auth.token,
+    user,
+    token,
   }
 })
 
@@ -20,5 +23,21 @@ export const authLogout = createAction('AUTH/LOGOUT', async () => {
   return {
     user: null,
     token: null,
+  }
+})
+
+export const getCurrent = createAction('USER/CURRENT', async () => {
+  const { user } = await Auth.current()
+
+  return {
+    user,
+  }
+})
+
+export const getFriends = createAction('USER/FRIENDS', async (id) => {
+  const { friends } = await User.friends(id)
+
+  return {
+    friends,
   }
 })
