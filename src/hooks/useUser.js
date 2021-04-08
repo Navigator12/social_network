@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import {
-  authLogin, authLogout, getCurrent, getFriends,
+  authLogin, authLogout, register, getCurrent, getFriends,
 } from '../store/actions'
 import useAsyncDispatch from './useAsyncDispatch'
 
@@ -12,6 +12,7 @@ export default () => {
     ...user,
     authLogin: (nickname, password) => dispatch(authLogin(nickname, password)),
     authLogout: () => dispatch(authLogout()),
+    register: (nickname, password) => dispatch(register(nickname, password)),
     getCurrent: () => dispatch(getCurrent()),
     getFriends: (id) => dispatch(getFriends(id)),
   }

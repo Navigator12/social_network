@@ -19,11 +19,18 @@ export const authLogin = createAction('AUTH/LOGIN', async (nickname, password) =
 
 export const authLogout = createAction('AUTH/LOGOUT', async () => {
   Auth.set('')
+  localStorage.removeItem('token');
 
   return {
     user: null,
     token: null,
   }
+})
+
+export const register = createAction('USER/REGISTER', async (nickname, password) => {
+  await Auth.register(nickname, password)
+
+  return {}
 })
 
 export const getCurrent = createAction('USER/CURRENT', async () => {
@@ -41,3 +48,7 @@ export const getFriends = createAction('USER/FRIENDS', async (id) => {
     friends,
   }
 })
+
+// export const getNews = createAction('USER/NEWS', async (id) => {
+//   const { posts } = await Post.news
+// })

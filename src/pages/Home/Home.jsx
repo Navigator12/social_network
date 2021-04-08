@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import useUser from '../../hooks/useUser'
 
 export const Home = () => {
-  const { user, getFriends, } = useUser()
+  const { user, getFriends } = useUser()
 
   useEffect(() => {
     if (user) {

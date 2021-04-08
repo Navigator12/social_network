@@ -1,7 +1,7 @@
 import { ActionType } from 'redux-promise-middleware'
 import { handleActions } from 'redux-actions'
 import {
-  authLogin, authLogout, getCurrent, getFriends,
+  authLogin, authLogout, register, getCurrent, getFriends,
 } from '../actions'
 
 const stateToLocalStorage = (state) => {
@@ -33,6 +33,10 @@ const reducer = handleActions(
         ...action.payload,
       }),
     },
+    [register.toString()]: {
+      [ActionType.Fulfilled]: (state) => ({ ...state }),
+      [ActionType.Rejected]: (state) => ({ ...state }),
+    },
     [getCurrent.toString()]: {
       [ActionType.Fulfilled]: (state, action) => ({
         ...state,
@@ -41,7 +45,7 @@ const reducer = handleActions(
       [ActionType.Rejected]: (state, action) => ({
         ...state,
         ...action.payload,
-      })
+      }),
     },
     [getFriends.toString()]: {
       [ActionType.Fulfilled]: (state, action) => ({
@@ -51,13 +55,13 @@ const reducer = handleActions(
       [ActionType.Rejected]: (state, action) => ({
         ...state,
         ...action.payload,
-      })
+      }),
     },
   },
   {
     user: null,
     token: null,
-    friends: []
+    friends: [],
   },
 )
 

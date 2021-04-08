@@ -5,25 +5,34 @@ import './App.css'
 import store from './store'
 
 import useUser from './hooks/useUser'
+import Header from './components/Header'
 import Home from './pages/Home'
-import Login from './pages/Login'
 import Users from './pages/Users'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Logout from './pages/Logout'
 
 const App = () => {
   const { getCurrent } = useUser()
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
-    getCurrent()
+    token && getCurrent()
   }, [])
 
-  return(
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/users" component={Users} />
-      </Switch>
-    </Router>
+  return (
+    <>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/users" component={Users} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/logout" component={Logout} />
+        </Switch>
+      </Router>
+    </>
   )
 }
 

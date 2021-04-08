@@ -7,9 +7,9 @@ import { useHistory } from 'react-router-dom'
 import useUser from '../../hooks/useUser'
 import useStyles from './styles'
 
-export const Login = () => {
+export const Register = () => {
   const history = useHistory()
-  const { authLogin } = useUser()
+  const { register } = useUser()
   const classes = useStyles()
 
   const [form, setForm] = useState({
@@ -27,10 +27,10 @@ export const Login = () => {
     try {
       event.preventDefault()
 
-      authLogin(form.nickname, form.password)
+      register(form.nickname, form.password)
         .then((res) => {
           if (res) {
-            history.push('/')
+            history.push('/login')
           } else {
             setError(true)
           }
@@ -44,7 +44,7 @@ export const Login = () => {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography variant="h3" component="h2">
-          Login
+          Register
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -73,14 +73,14 @@ export const Login = () => {
             </Grid>
           </Grid>
           {error && (
-          <Typography
-            variant="h6"
-            component="span"
-            color="error"
-            className={classes.error}
-          >
-            Invalid data
-          </Typography>
+            <Typography
+              variant="h6"
+              component="span"
+              color="error"
+              className={classes.error}
+            >
+              Invalid data
+            </Typography>
           )}
           <Button
             type="submit"
@@ -90,7 +90,7 @@ export const Login = () => {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Login
+            Register
           </Button>
         </form>
       </div>

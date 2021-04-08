@@ -28,6 +28,7 @@ const requests = {
 const Auth = {
   current: () => requests.get('/users/me'),
   login: (nickname, password) => requests.post('/users/login', { nickname, password }),
+  register: (nickname, password) => requests.post('/users/register', { nickname, password }),
   set: (jwt) => {
     token = jwt;
   },
@@ -37,7 +38,12 @@ const User = {
   friends: (id) => requests.get(`/users/friends/${id}`),
 }
 
+const Post = {
+  getNews: () => requests.get('/posts/news'),
+}
+
 export default {
   Auth,
   User,
+  Post,
 }
