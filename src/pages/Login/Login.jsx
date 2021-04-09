@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Container, Grid, Typography, TextField, Button,
 } from '@material-ui/core'
@@ -9,7 +9,7 @@ import useStyles from './styles'
 
 export const Login = () => {
   const history = useHistory()
-  const { authLogin } = useUser()
+  const { authLogin, authLogout } = useUser()
   const classes = useStyles()
 
   const [form, setForm] = useState({
@@ -18,6 +18,10 @@ export const Login = () => {
   })
 
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    authLogout()
+  }, [])
 
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })

@@ -39,7 +39,9 @@ const User = {
 }
 
 const Post = {
-  getNews: () => requests.get('/posts/news'),
+  getNews: ({ limit = 10, offset = 0 }) => requests.get(`/posts/news?limit=${limit}&offset=${offset}`),
+  create: (text) => requests.post('/posts/create', { text }),
+  comment: (postId, text) => requests.post('/posts/comment', { postId, text }),
 }
 
 export default {

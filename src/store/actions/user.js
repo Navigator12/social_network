@@ -48,7 +48,3 @@ export const getFriends = createAction('USER/FRIENDS', async (id) => {
     friends,
   }
 })
-
-// export const getNews = createAction('USER/NEWS', async (id) => {
-//   const { posts } = await Post.news
-// })
