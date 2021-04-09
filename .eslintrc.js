@@ -22,8 +22,8 @@ module.exports = {
     'no-console': 0,
     'no-underscore-dangle': 0,
     'strict': 0,
-    //max length of line is 120
-    'max-len': ['error', { 'code': 120 }],
+    //max length of line is 140
+    'max-len': ['error', { 'code': 140 }],
     // allow jsx in .js files
     'react/jsx-filename-extension': 0,
     // allow empty blocks

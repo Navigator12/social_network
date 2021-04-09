@@ -1,7 +1,16 @@
 import { ActionType } from 'redux-promise-middleware'
 import { handleActions } from 'redux-actions'
 import {
-  authLogin, authLogout, register, getCurrent, getFriends,
+  authLogin,
+  authLogout,
+  register,
+  getCurrent,
+  getAllUsers,
+  getFriends,
+  getPendingRequests,
+  getSentRequests,
+  resolveFriendRequest,
+  cancelFriendRequest,
 } from '../actions'
 
 const stateToLocalStorage = (state) => {
@@ -47,6 +56,16 @@ const reducer = handleActions(
         ...action.payload,
       }),
     },
+    [getAllUsers.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        users: action.payload.users,
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
     [getFriends.toString()]: {
       [ActionType.Fulfilled]: (state, action) => ({
         ...state,
@@ -57,11 +76,55 @@ const reducer = handleActions(
         ...action.payload,
       }),
     },
+    [getPendingRequests.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        pendingRequests: action.payload.pendingRequests,
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
+    [getSentRequests.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        sentRequests: action.payload.sentRequests,
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
+    [resolveFriendRequest.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        pendingRequests: state.pendingRequests.filter((el) => el._id !== action.payload.friend._id),
+        friends: action.payload.status ? [action.payload.friend, ...state.friends] : [...state.friends],
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
+    [cancelFriendRequest.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        sentRequests: state.sentRequests.filter((el) => el.requestId !== action.payload.requestId),
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
   },
   {
     user: null,
     token: null,
+    users: [],
     friends: [],
+    pendingRequests: [],
+    sentRequests: [],
   },
 )
 

@@ -8,13 +8,14 @@ import useStyles from './styles'
 
 export const Home = () => {
   const history = useHistory()
-  const [newPost, setNewPost] = useState('')
+  const classes = useStyles()
   const {
     news, getNews, createPost, commentPost,
   } = usePosts()
+
+  const [newPost, setNewPost] = useState('')
   const [error, setError] = useState(false)
   const [comments, setComments] = useState([])
-  const classes = useStyles()
 
   useEffect(() => {
     getNews()

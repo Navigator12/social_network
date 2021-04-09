@@ -2,7 +2,7 @@ import superagentPromise from 'superagent-promise'
 import _superagent from 'superagent'
 
 const superagent = superagentPromise(_superagent, global.Promise)
-const API = `${process.env.REACT_APP_URL}api`
+const API = `${process.env.REACT_APP_URL}/api`
 
 let token = ''
 
@@ -35,7 +35,12 @@ const Auth = {
 }
 
 const User = {
-  friends: (id) => requests.get(`/users/friends/${id}`),
+  getAllUsers: ({ limit = 25, offset = 0 }) => requests.get(`/users?limit=${limit}&offset=${offset}`),
+  getFriends: (id) => requests.get(`/users/friends/${id}`),
+  getPendingRequests: (id, { limit = 25, offset = 0 }) => requests.get(`/friend_request/pending/${id}?limit=${limit}&offset=${offset}`),
+  getSentRequests: (id, { limit = 25, offset = 0 }) => requests.get(`/friend_request/sent/${id}?limit=${limit}&offset=${offset}`),
+  resolveRequest: (requestId, accept) => requests.post('/friend_request/resolve', { requestId, accept }),
+  cancelRequest: (requestId) => requests.post('/friend_request/cancel', { requestId }),
 }
 
 const Post = {
