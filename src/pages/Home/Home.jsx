@@ -81,7 +81,9 @@ export const Home = () => {
           >
             Create
           </Button>
-          {error && (
+        </div>
+
+        {error && (
           <div className={classes.error}>
             <Typography
               variant="h5"
@@ -90,8 +92,7 @@ export const Home = () => {
               Something went wrong
             </Typography>
           </div>
-          )}
-        </div>
+        )}
 
         {
           news?.map((post, index) => (

@@ -23,6 +23,10 @@ const requests = {
     .post(`${API}${url}`, body)
     .use(tokenPlugin)
     .then(responseBody),
+  del: (url, body) => superagent
+    .del(`${API}${url}`, body)
+    .use(tokenPlugin)
+    .then(responseBody),
 }
 
 const Auth = {
@@ -36,11 +40,15 @@ const Auth = {
 
 const User = {
   getAllUsers: ({ limit = 25, offset = 0 }) => requests.get(`/users?limit=${limit}&offset=${offset}`),
+  getUser: (id) => requests.get(`/users/${id}`),
   getFriends: (id) => requests.get(`/users/friends/${id}`),
+  getFriendStatus: (from, to) => requests.get(`/users/friends/status/${from}/${to}`),
   getPendingRequests: (id, { limit = 25, offset = 0 }) => requests.get(`/friend_request/pending/${id}?limit=${limit}&offset=${offset}`),
   getSentRequests: (id, { limit = 25, offset = 0 }) => requests.get(`/friend_request/sent/${id}?limit=${limit}&offset=${offset}`),
+  sendRequest: (id) => requests.post('/friend_request/send', { to: id }),
   resolveRequest: (requestId, accept) => requests.post('/friend_request/resolve', { requestId, accept }),
   cancelRequest: (requestId) => requests.post('/friend_request/cancel', { requestId }),
+  removeFriendRelation: (otherUserId) => requests.del(`/users/friends/${otherUserId}`),
 }
 
 const Post = {
