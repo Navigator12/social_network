@@ -19,6 +19,7 @@ export const Profile = () => {
     posts,
     getProfile,
     createProfilePost,
+    deleteProfilePost,
     commentProfilePost,
     getFriendStatus,
     sendProfileFriendRequest,
@@ -32,6 +33,14 @@ export const Profile = () => {
   const [error, setError] = useState(false)
   const [comments, setComments] = useState([])
 
+  const handlePromise = (res) => {
+    if (res) {
+      setError(false)
+    } else {
+      setError(true)
+    }
+  }
+
   useEffect(() => {
     const { id } = params
 
@@ -40,16 +49,10 @@ export const Profile = () => {
       return
     }
 
-    getProfile(id || user._id).then((res) => {
-      if (res) {
-        setError(false)
-      } else {
-        setError(true)
-      }
-    })
+    getProfile(id || user._id).then(handlePromise)
 
     if (id) {
-      getFriendStatus(user._id, id)
+      getFriendStatus(user._id, id).then(handlePromise)
     }
   }, [params])
 
@@ -62,19 +65,19 @@ export const Profile = () => {
   }, [posts])
 
   const sendRequest = (to) => {
-    sendProfileFriendRequest(to)
+    sendProfileFriendRequest(to).then(handlePromise)
   }
 
   const cancelRequest = (id) => {
-    cancelProfileFriendRequest(id)
+    cancelProfileFriendRequest(id).then(handlePromise)
   }
 
   const resolveRequest = (id, resultStatus) => {
-    resolveProfileFriendRequest(id, resultStatus)
+    resolveProfileFriendRequest(id, resultStatus).then(handlePromise)
   }
 
   const removeFriendRelation = (id) => {
-    removeProfileFriendRelation(id)
+    removeProfileFriendRelation(id).then(handlePromise)
   }
 
   const handleChangePost = (event) => {
@@ -92,6 +95,10 @@ export const Profile = () => {
         setError(true)
       }
     })
+  }
+
+  const handleDeletePost = (id) => {
+    deleteProfilePost(id).then(handlePromise)
   }
 
   const handleChangeComment = (index, value) => {
@@ -301,9 +308,22 @@ export const Profile = () => {
                     {profile.nickname}
                   </Typography>
 
-                  <Typography variant="h5" component="span" className={classes.date}>
-                    {new Date(post.date).toLocaleString()}
-                  </Typography>
+                  <div>
+                    <Typography variant="h5" component="span" className={classes.date}>
+                      {new Date(post.date).toLocaleString()}
+                    </Typography>
+                    {me && (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDeletePost(post._id)}
+                      className={classes.deletePost}
+                    >
+                      Delete
+                    </Button>
+                    )}
+                  </div>
                 </div>
 
                 <Typography variant="h5" component="span">

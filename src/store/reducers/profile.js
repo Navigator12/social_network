@@ -3,6 +3,7 @@ import { handleActions } from 'redux-actions'
 import {
   getProfile,
   createProfilePost,
+  deleteProfilePost,
   commentProfilePost,
   getFriendStatus,
   sendProfileFriendRequest,
@@ -29,6 +30,16 @@ const reducer = handleActions(
       [ActionType.Fulfilled]: (state, action) => ({
         ...state,
         posts: [action.payload.post, ...state.posts],
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
+    [deleteProfilePost.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        posts: state.posts.filter((el) => el._id !== action.payload.postId),
       }),
       [ActionType.Rejected]: (state, action) => ({
         ...state,

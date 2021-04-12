@@ -31,6 +31,7 @@ export const Users = () => {
     SentRequests: 3,
   }
 
+  const [error, setError] = useState(false)
   const [currentSection, setCurrentSection] = useState(variants.AllUsers)
 
   const handleUser = (id) => {
@@ -38,11 +39,37 @@ export const Users = () => {
   }
 
   useEffect(() => {
-    getAllUsers(user?._id)
-    getFriends(user?._id)
-    getPendingRequests(user?._id)
-    getSentRequests(user?._id)
+    Promise.all([
+      getAllUsers(user?._id),
+      getFriends(user?._id),
+      getPendingRequests(user?._id),
+      getSentRequests(user?._id),
+    ]).then((responses) => responses.forEach((res) => {
+      if (!res) {
+        setError(true)
+      }
+    }))
   }, [])
+
+  const resolveRequest = (id, status) => {
+    resolveFriendRequest(id, status).then((res) => {
+      if (res) {
+        setError(false)
+      } else {
+        setError(true)
+      }
+    })
+  }
+
+  const cancelRequest = (id) => {
+    cancelFriendRequest(id).then((res) => {
+      if (res) {
+        setError(false)
+      } else {
+        setError(true)
+      }
+    })
+  }
 
   return (
     <Container component="main" maxWidth="md">
@@ -105,6 +132,17 @@ export const Users = () => {
             </Typography>
           </div>
         </div>
+
+        {error && (
+          <div className={classes.error}>
+            <Typography
+              variant="h5"
+              component="span"
+            >
+              Something went wrong
+            </Typography>
+          </div>
+        )}
 
         <div>
           {
@@ -175,7 +213,7 @@ export const Users = () => {
                     variant="contained"
                     color="primary"
                     className={classes.resolve}
-                    onClick={() => resolveFriendRequest(el.requestId, true)}
+                    onClick={() => resolveRequest(el.requestId, true)}
                   >
                     Accept
                   </Button>
@@ -184,7 +222,7 @@ export const Users = () => {
                     variant="contained"
                     color="secondary"
                     className={classes.resolve}
-                    onClick={() => resolveFriendRequest(el.requestId, false)}
+                    onClick={() => resolveRequest(el.requestId, false)}
                   >
                     Decline
                   </Button>
@@ -211,7 +249,7 @@ export const Users = () => {
                   variant="contained"
                   color="secondary"
                   className={classes.resolve}
-                  onClick={() => cancelFriendRequest(el.requestId)}
+                  onClick={() => cancelRequest(el.requestId)}
                 >
                   Cancel
                 </Button>

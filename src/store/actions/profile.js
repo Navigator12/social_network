@@ -59,6 +59,14 @@ export const createProfilePost = createAction('PROFILE/POST/CREATE', async (text
   }
 })
 
+export const deleteProfilePost = createAction('PROFILE/POST/DELETE', async (id) => {
+  const { postId } = await Post.delete(id)
+
+  return {
+    postId,
+  }
+})
+
 export const commentProfilePost = createAction('PROFILE/POST/COMMENT', async (id, text) => {
   const { post } = await Post.comment(id, text)
 

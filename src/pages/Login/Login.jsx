@@ -20,7 +20,11 @@ export const Login = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    authLogout()
+    authLogout().then((res) => {
+      if (!res) {
+        setError(true)
+      }
+    })
   }, [])
 
   const handleChange = (event) => {

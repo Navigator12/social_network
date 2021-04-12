@@ -5,6 +5,8 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import { store, persisted } from './store'
 
+import useUser from './hooks/useUser'
+import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Home from './pages/Home'
 import Users from './pages/Users'
@@ -13,22 +15,26 @@ import Register from './pages/Register'
 import Profile from './pages/Profile'
 import Logout from './pages/Logout'
 
-const App = () => (
-  <>
-    <Router>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/users" component={Users} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/profile" component={Profile} />
-        <Route path="/profile/:id" component={Profile} />
-        <Route exact path="/logout" component={Logout} />
-      </Switch>
-    </Router>
-  </>
-)
+const App = () => {
+  const { token } = useUser()
+
+  return (
+    <>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <PrivateRoute auth={token} exact path="/" component={Home} />
+          <PrivateRoute auth={token} exact path="/users" component={Users} />
+          <PrivateRoute auth={token} exact path="/profile" component={Profile} />
+          <PrivateRoute auth={token} path="/profile/:id" component={Profile} />
+          <PrivateRoute auth={token} exact path="/logout" component={Logout} />
+        </Switch>
+      </Router>
+    </>
+  )
+}
 
 const AppProviders = () => (
   <StoreProvider store={store}>

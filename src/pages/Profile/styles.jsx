@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1),
     background: '#DDDDFF',
   },
+  deletePost: {
+    margin: theme.spacing(-1, 0, 0, 1),
+  },
   head: {
     display: 'flex',
     justifyContent: 'space-between',

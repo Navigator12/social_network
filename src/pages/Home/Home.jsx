@@ -18,7 +18,13 @@ export const Home = () => {
   const [comments, setComments] = useState([])
 
   useEffect(() => {
-    getNews()
+    getNews().then((res) => {
+      if (res) {
+        setError(false)
+      } else {
+        setError(true)
+      }
+    })
   }, [])
 
   useEffect(() => {

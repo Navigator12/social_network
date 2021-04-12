@@ -28,6 +28,17 @@ const useStyles = makeStyles((theme) => ({
       borderBottomRightRadius: `${theme.spacing(1)}px`,
       borderTopRightRadius: `${theme.spacing(1)}px`,
     },
+    '&:focus': {
+      outline: 'none',
+    },
+  },
+  error: {
+    display: 'flex',
+    padding: theme.spacing(3),
+    margin: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+    background: '#FFDDDD',
+    width: theme.spacing(104),
   },
   user: {
     cursor: 'pointer',
@@ -41,10 +52,6 @@ const useStyles = makeStyles((theme) => ({
   },
   resolve: {
     margin: theme.spacing(0, 1),
-  },
-  error: {
-    display: 'flex',
-    marginTop: theme.spacing(3),
   },
 }))
 

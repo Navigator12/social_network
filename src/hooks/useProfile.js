@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import {
   getProfile,
   createProfilePost,
+  deleteProfilePost,
   commentProfilePost,
   getFriendStatus,
   sendProfileFriendRequest,
@@ -19,6 +20,7 @@ export default () => {
     ...profile,
     getProfile: (id) => dispatch(getProfile(id)),
     createProfilePost: (text) => dispatch(createProfilePost(text)),
+    deleteProfilePost: (id) => dispatch(deleteProfilePost(id)),
     commentProfilePost: (id, text) => dispatch(commentProfilePost(id, text)),
     getFriendStatus: (from, to) => dispatch(getFriendStatus(from, to)),
     sendProfileFriendRequest: (to) => dispatch(sendProfileFriendRequest(to)),

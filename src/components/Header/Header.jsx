@@ -8,35 +8,35 @@ import useUser from '../../hooks/useUser'
 import useStyles from './styles'
 
 export const Header = () => {
-  const { user } = useUser()
+  const { token } = useUser()
   const {
     header, logo, menuButton, toolbar,
   } = useStyles()
 
   const links = () => (
     <div>
-      <Button
-        key="home"
-        color="inherit"
-        to="/"
-        component={Link}
-        className={menuButton}
-      >
-        Home
-      </Button>
-      <Button
-        key="users"
-        color="inherit"
-        to="/users"
-        component={Link}
-        className={menuButton}
-      >
-        Users
-      </Button>
       {
-        user
+        token
           ? (
             <>
+              <Button
+                key="home"
+                color="inherit"
+                to="/"
+                component={Link}
+                className={menuButton}
+              >
+                Home
+              </Button>
+              <Button
+                key="users"
+                color="inherit"
+                to="/users"
+                component={Link}
+                className={menuButton}
+              >
+                Users
+              </Button>
               <Button
                 key="profile"
                 color="inherit"
