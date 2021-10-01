@@ -58,8 +58,14 @@ const Post = {
   comment: (postId, text) => requests.post('/posts/comment', { postId, text }),
 }
 
+const Chat = {
+  getChats: () => requests.get('/chats'),
+  getChatWithMessages: (otherId) => requests.get(`/chats/${otherId}`),
+}
+
 export default {
   Auth,
   User,
   Post,
+  Chat,
 }

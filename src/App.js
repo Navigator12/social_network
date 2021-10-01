@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Provider as StoreProvider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import { store, persisted } from './store'
+import Socket from './socket'
 
 import useUser from './hooks/useUser'
 import PrivateRoute from './components/PrivateRoute'
@@ -14,9 +15,17 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
 import Logout from './pages/Logout'
+import ChatList from './pages/ChatList'
+import Chat from './pages/Chat'
 
 const App = () => {
-  const { token } = useUser()
+  const { user, token } = useUser()
+
+  useEffect(() => {
+    if (user) {
+      Socket.initialize(user._id)
+    }
+  }, [user])
 
   return (
     <>
@@ -30,6 +39,8 @@ const App = () => {
           <PrivateRoute auth={token} exact path="/profile" component={Profile} />
           <PrivateRoute auth={token} path="/profile/:id" component={Profile} />
           <PrivateRoute auth={token} exact path="/logout" component={Logout} />
+          <PrivateRoute auth={token} exact path="/chats" component={ChatList} />
+          <PrivateRoute auth={token} path="/chat/:otherId" component={Chat} />
         </Switch>
       </Router>
     </>

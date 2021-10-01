@@ -47,6 +47,15 @@ export const Header = () => {
                 Profile
               </Button>
               <Button
+                key="chats"
+                color="inherit"
+                to="/chats"
+                component={Link}
+                className={menuButton}
+              >
+                Chats
+              </Button>
+              <Button
                 key="logout"
                 color="inherit"
                 to="/logout"

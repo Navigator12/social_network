@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions'
+import Socket from '../../socket'
 import agent from '../../agent'
 
 const { Auth, User } = agent
@@ -20,6 +21,8 @@ export const authLogin = createAction('AUTH/LOGIN', async (nickname, password) =
 export const authLogout = createAction('AUTH/LOGOUT', async () => {
   Auth.set('')
   localStorage.removeItem('token');
+
+  Socket.disconnect()
 
   return {
     user: null,
