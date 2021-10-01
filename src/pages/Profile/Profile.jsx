@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core'
 import useUser from '../../hooks/useUser'
 import useProfile from '../../hooks/useProfile'
+import useChat from '../../hooks/useChats'
 import useStyles from './styles'
 import friendStatus from '../../helpers/friendStatus/friendStatus'
 
@@ -27,11 +28,14 @@ export const Profile = () => {
     resolveProfileFriendRequest,
     removeProfileFriendRelation,
   } = useProfile()
+  const { profileChat, findChat, createChat } = useChat()
 
   const [me, setMe] = useState(false)
   const [newPost, setNewPost] = useState('')
   const [error, setError] = useState(false)
   const [comments, setComments] = useState([])
+
+  const [chatLink, setChatLink] = useState('')
 
   const handlePromise = (res) => {
     if (res) {
@@ -53,8 +57,16 @@ export const Profile = () => {
 
     if (id) {
       getFriendStatus(user._id, id).then(handlePromise)
+
+      findChat(id)
     }
   }, [params])
+
+  useEffect(() => {
+    if (profileChat) {
+      setChatLink(profile?._id)
+    }
+  }, [profileChat, profile])
 
   useEffect(() => {
     setMe(!params.id)
@@ -63,6 +75,21 @@ export const Profile = () => {
   useEffect(() => {
     setComments(new Array(posts?.length).fill(''))
   }, [posts])
+
+  const handleMessage = () => {
+    if (!profileChat) {
+      createChat(profile._id)
+        .then((res) => {
+          if (res) {
+            history.push(`/chat/${profile._id}`)
+          }
+        })
+
+      return
+    }
+
+    history.push(`/chat/${chatLink}`)
+  }
 
   const sendRequest = (to) => {
     sendProfileFriendRequest(to).then(handlePromise)
@@ -128,16 +155,26 @@ export const Profile = () => {
             !me
               && (
               <>
-                <Typography
-                  variant="h5"
-                  component="span"
-                  className={classes.nickname}
-                >
-                  This is
-                  {' '}
-                  {profile?.nickname}
-                  &apos;s page
-                </Typography>
+                <div className={classes.message}>
+                  <Typography
+                    variant="h5"
+                    component="span"
+                    className={classes.nickname}
+                  >
+                    This is
+                    {' '}
+                    {profile?.nickname}
+                    &apos;s page
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.messageButton}
+                    onClick={handleMessage}
+                  >
+                    Message
+                  </Button>
+                </div>
 
                 {
                   status?.code === friendStatus.notFriend && (

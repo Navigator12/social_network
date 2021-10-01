@@ -1,6 +1,12 @@
 import { ActionType } from 'redux-promise-middleware'
 import { handleActions } from 'redux-actions'
-import { getChats, getChatWithMessages, receiveMessage } from '../actions'
+import {
+  getChats,
+  getChatWithMessages,
+  receiveMessage,
+  findChat,
+  createChat,
+} from '../actions'
 
 const reducer = handleActions(
   {
@@ -37,10 +43,31 @@ const reducer = handleActions(
         ...action.payload,
       }),
     },
+    [findChat.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        profileChat: action.payload.chat,
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
+    [createChat.toString()]: {
+      [ActionType.Fulfilled]: (state, action) => ({
+        ...state,
+        profileChat: action.payload.chat,
+      }),
+      [ActionType.Rejected]: (state, action) => ({
+        ...state,
+        ...action.payload,
+      }),
+    },
   },
   {
     chats: [],
     chat: null,
+    profileChat: null,
   },
 )
 

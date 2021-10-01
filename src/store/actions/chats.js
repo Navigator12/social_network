@@ -20,3 +20,19 @@ export const getChatWithMessages = createAction('CHATS/CHAT', async (otherId) =>
 })
 
 export const receiveMessage = createAction('CHATS/RECEIVE', async (message) => ({ message }))
+
+export const findChat = createAction('CHATS/FIND', async (otherId) => {
+  const { chat } = await Chat.findChat(otherId)
+
+  return {
+    chat,
+  }
+})
+
+export const createChat = createAction('CHAT/CREATE', async (otherId) => {
+  const { chat } = await Chat.createChat(otherId)
+
+  return {
+    chat,
+  }
+})

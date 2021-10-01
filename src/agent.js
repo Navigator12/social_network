@@ -61,6 +61,8 @@ const Post = {
 const Chat = {
   getChats: () => requests.get('/chats'),
   getChatWithMessages: (otherId) => requests.get(`/chats/${otherId}`),
+  findChat: (otherId) => requests.get(`/chats/find/${otherId}`),
+  createChat: (otherId) => requests.post('/chats/create', { otherId }),
 }
 
 export default {

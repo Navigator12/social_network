@@ -12,6 +12,13 @@ const useStyles = makeStyles((theme) => ({
   nickname: {
     marginLeft: theme.spacing(2),
   },
+  message: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  messageButton: {
+    margin: theme.spacing(0, 2),
+  },
   friendStatus: {
     margin: theme.spacing(1, 2),
     padding: theme.spacing(1),

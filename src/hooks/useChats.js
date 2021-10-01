@@ -1,5 +1,11 @@
 import { useSelector } from 'react-redux'
-import { getChats, getChatWithMessages, receiveMessage } from '../store/actions'
+import {
+  getChats,
+  getChatWithMessages,
+  receiveMessage,
+  findChat,
+  createChat,
+} from '../store/actions'
 import useAsyncDispatch from './useAsyncDispatch'
 
 export default () => {
@@ -11,5 +17,7 @@ export default () => {
     getChats: () => dispatch(getChats()),
     getChatWithMessages: (otherId) => dispatch(getChatWithMessages(otherId)),
     receiveMessage: (message) => dispatch(receiveMessage(message)),
+    findChat: (otherId) => dispatch(findChat(otherId)),
+    createChat: (otherId) => dispatch(createChat(otherId)),
   }
 }
